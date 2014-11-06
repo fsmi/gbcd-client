@@ -366,17 +366,19 @@ int main(int argc, char** argv){
 		fprintf(stderr, "Connected to barcode scanner\nHit q to disconnect\n");
 	}
 
-	//set up terminal
-	if(tcgetattr(0, &term_normal)<0){
-		perror("tcgetattr");
-	}
-
-	memcpy(&term_raw, &term_normal, sizeof(term_raw));
+	if(CONF.mode!=INFO){
+		//set up terminal
+		if(tcgetattr(0, &term_normal)<0){
+			perror("tcgetattr");
+		}
 	
-	cfmakeraw(&term_raw);
-
-	if(tcsetattr(0, TCSANOW, &term_raw)<0){
-		perror("tcsetattr");
+		memcpy(&term_raw, &term_normal, sizeof(term_raw));
+	
+		cfmakeraw(&term_raw);
+	
+		if(tcsetattr(0, TCSANOW, &term_raw)<0){
+			perror("tcsetattr");
+		}
 	}
 
 	if(loop_select(sockfd)<0){
@@ -384,8 +386,10 @@ int main(int argc, char** argv){
 	}
 
 	//cleanup
-	if(tcsetattr(0, TCSANOW, &term_normal)<0){
-		perror("tcsetattr");
+	if(CONF.mode!=INFO){
+		if(tcsetattr(0, TCSANOW, &term_normal)<0){
+			perror("tcsetattr");
+		}
 	}
 	close(sockfd);
 	return 0;
