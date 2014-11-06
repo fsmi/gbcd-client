@@ -165,13 +165,16 @@ int handle_input(int fd, char* data){
 		printf("%s\r\n", data+strlen("BARCODE "));
 	}
 	else if(!strncmp(data, "ERROR", 5)){
-		close(fd);
+		if(CONF.verbosity>0){
+			fprintf(stderr, "Barcode daemon reported an error: %s\n", data+strlen("ERROR "));
+		}
+		return 1;
 	}
 	else{
 		if(CONF.verbosity>0){
 			fprintf(stderr, "Incoming data not recognized: %s\r\n", data);
 		}
-		return 1;
+		return -1;
 	}
 	
 	if(send_buf[0]){
@@ -227,7 +230,14 @@ int loop_select(int fd){
 				for(i=0;i<error;i++){
 					if(sock_buf[offset+i]=='\n'){
 						sock_buf[offset+i]=0;
-						handle_input(fd, sock_buf);
+						c=handle_input(fd, sock_buf);
+						if(c<0){
+							//error
+						}
+						else if(c>0){
+							//quit
+							break;
+						}
 						//copy back
 						for(c=0;c+i+1<error;c++){
 							sock_buf[c]=sock_buf[offset+c+i+1];
