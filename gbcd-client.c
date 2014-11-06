@@ -166,7 +166,7 @@ int handle_input(int fd, char* data){
 	}
 	else if(!strncmp(data, "ERROR", 5)){
 		if(CONF.verbosity>0){
-			fprintf(stderr, "Barcode daemon reported an error: %s\n", data+strlen("ERROR "));
+			fprintf(stderr, "Barcode daemon reported an error: %s\r\n", data+strlen("ERROR "));
 		}
 		return 1;
 	}
