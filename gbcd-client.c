@@ -14,8 +14,7 @@
 #define NET_BUFFER_LEN 1024
 
 /*
- *bcd info fsi-pc3 tst/1
- *bcd scan --force fsi-pc2 tst/1
+ *TODO: max-scan
  */
 
 typedef enum /*_OPERATION_MODE*/ {
@@ -36,15 +35,16 @@ struct {
 
 int usage(char* fn){
 	printf("garfield-barcoded shell client\n\n");
-	printf("--verbosity <n>\tSet verbosity (Default: 1, 0 supresses output)\n");
-	printf("--force\tForcibly acquire barcode scanner\n");
-	printf("--port <n>\tSet barcoded port\n");
-	printf("--max-scan <n>\tScan n barcodes and exit\n");
-	printf("--keep\tRegrab the scanner should someone else grab it\n");
-	printf("info\tGet Barcodescanner information\n");
-	printf("scan\tScan barcodes if scanner available\n");
-	printf("<host>\tBarcoded host\n");
-	printf("<username>\tUser name to acquire with\n");
+	printf("Known parameters:\n");
+	printf("\t--verbosity <n>\t\tSet verbosity (Default: 1, 0 supresses output)\n");
+	printf("\t--force\t\t\tForcibly acquire barcode scanner\n");
+	printf("\t--port <n>\t\tSet barcoded port\n");
+	printf("\t--max-scan <n>\t\tScan n barcodes and exit\n");
+	printf("\t--keep\t\t\tRegrab the scanner should someone else grab it\n");
+	printf("\tinfo\t\t\tGet Barcodescanner information\n");
+	printf("\tscan\t\t\tScan barcodes if scanner available\n");
+	printf("\t<host>\t\t\tBarcoded host\n");
+	printf("\t<username>\t\tUser name to acquire with\n");
 	return 1;
 }
 
