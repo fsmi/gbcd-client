@@ -164,6 +164,9 @@ int handle_input(int fd, char* data){
 		//barcode input
 		printf("%s\r\n", data+strlen("BARCODE "));
 	}
+	else if(!strncmp(data, "ERROR", 5)){
+		close(fd);
+	}
 	else{
 		if(CONF.verbosity>0){
 			fprintf(stderr, "Incoming data not recognized: %s\r\n", data);
