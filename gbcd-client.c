@@ -191,7 +191,7 @@ int loop_select(int fd){
 	fd_set readfds;
 	unsigned i,c;
 	struct timeval tv;
-	int error, offset=0;
+	int error, offset=0, result;
 	char stdin_buf[10];
 	char sock_buf[NET_BUFFER_LEN+1];
 
@@ -230,11 +230,11 @@ int loop_select(int fd){
 				for(i=0;i<error;i++){
 					if(sock_buf[offset+i]=='\n'){
 						sock_buf[offset+i]=0;
-						c=handle_input(fd, sock_buf);
-						if(c<0){
+						result=handle_input(fd, sock_buf);
+						if(result<0){
 							//error
 						}
-						else if(c>0){
+						else if(result>0){
 							//quit
 							break;
 						}
@@ -246,6 +246,9 @@ int loop_select(int fd){
 						error=c;
 						i=0;
 					}
+				}
+				if(result!=0){
+					break;
 				}
 			}
 			else{
