@@ -1,5 +1,8 @@
-CFLAGS=-Wall
+CFLAGS=-g -Wall
 
-all: barcoded-cli
+all: gbcd-client
 
-barcoded-cli: barcoded-cli.c
+barcoded-cli: gbcd-client.c
+
+clean:
+	rm gbcd-client
