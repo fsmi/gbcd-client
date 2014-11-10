@@ -31,6 +31,7 @@ struct {
 	uint16_t port;
 	char* name;
 	unsigned int max_scans;
+	unsigned int scans;
 } CONF;
 
 int usage(char* fn){
@@ -162,7 +163,14 @@ int handle_input(int fd, char* data){
 	}
 	else if(!strncmp(data, "BARCODE", 7)){
 		//barcode input
+		CONF.scans++;
 		printf("%s\r\n", data+strlen("BARCODE "));
+		if(CONF.max_scans>0&&CONF.scans>=CONF.max_scans){
+			snprintf(send_buf, sizeof(send_buf)-1, "QUIT\n");
+		}
+		if(CONF.verbosity>1){
+			fprintf(stderr, "Scanned %d barcodes\r\n", CONF.scans);
+		}
 	}
 	else if(!strncmp(data, "ERROR", 5)){
 		if(CONF.verbosity>0){
@@ -294,6 +302,7 @@ int main(int argc, char** argv){
 	CONF.port=3974;
 	CONF.name=NULL;
 	CONF.max_scans=0;
+	CONF.scans=0;
 	CONF.keep=false;
 
 	//parse commandline options
