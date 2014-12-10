@@ -250,11 +250,12 @@ int loop_select(int fd){
 						for(c=0;c+i+1<error;c++){
 							sock_buf[c]=sock_buf[offset+c+i+1];
 						}
-						offset=c;
+						offset=0;
 						error=c;
-						i=0;
+						i=-1;
 					}
 				}
+				offset=i;
 				if(result!=0){
 					break;
 				}
